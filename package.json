@@ -1,0 +1,53 @@
+{
+  "name": "orthoflow",
+  "version": "0.1.0",
+  "description": "Orthogonal graph layout engine (WebAssembly): an unofficial, bit-exact port of the TALA layout engine from D2. Not affiliated with Terrastruct.",
+  "keywords": [
+    "graph",
+    "layout",
+    "diagram",
+    "orthogonal",
+    "wasm",
+    "webassembly"
+  ],
+  "license": "MPL-2.0 AND BSD-3-Clause AND MIT AND Unicode-3.0",
+  "author": "Niklas Krieger <niklask.coding@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nk-coding/orthoflow-js.git"
+  },
+  "homepage": "https://github.com/nk-coding/orthoflow-js#readme",
+  "bugs": "https://github.com/nk-coding/orthoflow-js/issues",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./orthoflow.wasm": "./dist/orthoflow.wasm",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "dist/orthoflow.wasm",
+    "dist/wasm/*.js",
+    "dist/wasm/*.d.ts",
+    "LICENSES"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "prepack": "node scripts/check-dist.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "5.9.3"
+  }
+}
