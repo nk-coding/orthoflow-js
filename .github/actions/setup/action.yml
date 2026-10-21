@@ -1,0 +1,22 @@
+name: Setup
+description: Rust (wasm32 target), the wasm-bindgen CLI pinned by the Rust repository, and Node.js.
+runs:
+  using: composite
+  steps:
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+    - uses: Swatinem/rust-cache@v2
+      with:
+        workspaces: orthoflow
+    - id: bindgen
+      shell: bash
+      run: echo "version=$(sed -n 's/^wasm-bindgen = .*"=\([0-9.]*\)".*/\1/p' orthoflow/crates/orthoflow-wasm/Cargo.toml)" >> "$GITHUB_OUTPUT"
+    - uses: taiki-e/install-action@v2
+      with:
+        tool: wasm-bindgen@${{ steps.bindgen.outputs.version }}
+    # npm >= 11.5.1 is needed for trusted publishing; Node 24 ships it.
+    - uses: actions/setup-node@v5
+      with:
+        node-version: 24
+        registry-url: https://registry.npmjs.org
