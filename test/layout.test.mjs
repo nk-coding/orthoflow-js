@@ -5,7 +5,7 @@
 // Copyright 2026 Niklas Krieger
 
 // Tests of the built package (run `npm run build` first). Fixtures and Go's
-// expected outputs come from the Rust repository (../orthoflow or
+// expected outputs come from the Rust repository (the orthoflow submodule or
 // ORTHOFLOW_RUST_DIR): tests/fixtures/{corpus,random}/{inputs,expected}.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -19,7 +19,7 @@ import * as ow from 'orthoflow';
 import { parseJson } from '../dist/json.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const rustDir = resolve(root, process.env.ORTHOFLOW_RUST_DIR ?? '../orthoflow');
+const rustDir = resolve(root, process.env.ORTHOFLOW_RUST_DIR ?? 'orthoflow');
 const fixtures = join(rustDir, 'tests', 'fixtures');
 
 // A mix of small and larger fixtures; several produce 63-bit vessel IDs.

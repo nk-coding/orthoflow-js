@@ -8,23 +8,15 @@ on:
 permissions:
   contents: read
 
-defaults:
-  run:
-    working-directory: orthoflow-js
-
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # The build and the tests use the Rust repository (the orthoflow submodule).
       - uses: actions/checkout@v5
         with:
-          path: orthoflow-js
-      # The build and the tests use the Rust repository next to this one.
-      - uses: actions/checkout@v5
-        with:
-          repository: nk-coding/orthoflow
-          path: orthoflow
-      - uses: ./orthoflow-js/.github/actions/setup
+          submodules: true
+      - uses: ./.github/actions/setup
       - run: npm ci
       - run: npm run build
       - run: npm test

@@ -197,16 +197,17 @@ Output (`result.graph`):
 
 ## Building from source
 
-The package is built from the Rust repository, expected next to this one
-(`../orthoflow`, or set `ORTHOFLOW_RUST_DIR`). You need Rust with the
+The package is built from the Rust repository, included as the `orthoflow`
+git submodule (or set `ORTHOFLOW_RUST_DIR`). You need Rust with the
 `wasm32-unknown-unknown` target and `wasm-bindgen-cli` 0.2.129:
 
 ```sh
+git submodule update --init
 rustup target add wasm32-unknown-unknown
 cargo install wasm-bindgen-cli --version 0.2.129
 npm install
-npm run build   # ../orthoflow/scripts/build-wasm.sh + tsc -> dist/
-npm test        # lays out fixtures from ../orthoflow/tests/fixtures and compares with Go's output
+npm run build   # orthoflow/scripts/build-wasm.sh + tsc -> dist/
+npm test        # lays out fixtures from orthoflow/tests/fixtures and compares with Go's output
 ```
 
 ## License

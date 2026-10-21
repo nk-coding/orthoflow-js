@@ -1,6 +1,6 @@
-# Publishes to npm on a version tag (vX.Y.Z), built from the same tag of the
-# Rust repository. Authenticates with npm trusted publishing (OIDC), so no
-# token is stored; provenance is attached automatically.
+# Publishes to npm on a version tag (vX.Y.Z), built from the Rust repository at
+# the commit pinned by the orthoflow submodule. Authenticates with npm trusted
+# publishing (OIDC), so no token is stored; provenance is attached automatically.
 name: Release
 
 on:
@@ -9,10 +9,6 @@ on:
 
 permissions:
   contents: read
-
-defaults:
-  run:
-    working-directory: orthoflow-js
 
 jobs:
   publish:
@@ -25,20 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          path: orthoflow-js
-      - uses: actions/checkout@v5
-        with:
-          repository: nk-coding/orthoflow
-          ref: ${{ github.ref_name }}
-          path: orthoflow
+          submodules: true
       - name: Check versions match the tag
         run: |
           tag="${GITHUB_REF_NAME#v}"
           js=$(node -p "require('./package.json').version")
-          rust=$(sed -n '/^\[workspace.package\]/,/^\[/s/^version = "\(.*\)"/\1/p' ../orthoflow/Cargo.toml)
+          rust=$(sed -n '/^\[workspace.package\]/,/^\[/s/^version = "\(.*\)"/\1/p' orthoflow/Cargo.toml)
           echo "tag $tag, package.json $js, Cargo.toml $rust"
           [ "$tag" = "$js" ] && [ "$tag" = "$rust" ]
-      - uses: ./orthoflow-js/.github/actions/setup
+      - uses: ./.github/actions/setup
       - run: npm ci
       - run: npm run build
       - run: npm test

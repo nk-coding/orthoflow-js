@@ -9,7 +9,7 @@
 //   2. copies the wasm-bindgen glue to src/wasm/ (for tsc) and dist/wasm/,
 //      and the module to dist/orthoflow.wasm
 //   3. tsc (src/*.ts -> dist/*.js + *.d.ts)
-// The Rust repository defaults to ../orthoflow; override with ORTHOFLOW_RUST_DIR.
+// The Rust repository defaults to the orthoflow submodule; override with ORTHOFLOW_RUST_DIR.
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -17,7 +17,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const rustDir = resolve(root, process.env.ORTHOFLOW_RUST_DIR ?? '../orthoflow');
+const rustDir = resolve(root, process.env.ORTHOFLOW_RUST_DIR ?? 'orthoflow');
 const script = join(rustDir, 'scripts', 'build-wasm.sh');
 if (!existsSync(script)) {
   console.error(`orthoflow Rust repository not found at ${rustDir} (set ORTHOFLOW_RUST_DIR)`);
